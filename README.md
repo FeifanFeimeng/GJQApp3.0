@@ -1,4 +1,4 @@
-﻿# Android-Carbon-Forum    [![Build Status](https://travis-ci.org/lincanbin/Android-Carbon-Forum.svg)](https://travis-ci.org/lincanbin/Android-Carbon-Forum)
+# Android-GJQapp   [![Build Status](https://travis-ci.org/lincanbin/Android-Carbon-Forum.svg)](https://travis-ci.org/lincanbin/Android-Carbon-Forum)
 
 Android Client for GJQapp with Material Design.
 
