@@ -1,6 +1,6 @@
-# Android-Carbon-Forum    [![Build Status](https://travis-ci.org/lincanbin/Android-Carbon-Forum.svg)](https://travis-ci.org/lincanbin/Android-Carbon-Forum)
+﻿# Android-Carbon-Forum    [![Build Status](https://travis-ci.org/lincanbin/Android-Carbon-Forum.svg)](https://travis-ci.org/lincanbin/Android-Carbon-Forum)
 
-Android Client for Carbon Forum with Material Design.
+Android Client for GJQapp with Material Design.
 
 
 
@@ -28,30 +28,14 @@ Android Client for Carbon Forum with Material Design.
 
 ## Screenshot
 
-![Main](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-36-59.png)
 
-![Topic](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-41-33.png)
-
-![New](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-11-10-20-38-12.png)
-
-![Login](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-39-40.png) ![Settings](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-39-51.png)
-
-![Notifications](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-11-12-00-35-02.png)
-
-![Push_Service](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-42-58.png)
-
-![Drawer](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-37-11.png)
-
-![Drawer2](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-37-28.png)
-
-![Drawer3](https://raw.githubusercontent.com/lincanbin/Android-Carbon-Forum/master/screenshot/Screenshot_2015-10-16-00-43-26.png)
 
 
 
 ## License
 
 ``` 
-Copyright 2015-2016 Canbin Lin (lincanbin@hotmail.com)
+Copyright 2016-2017 Lei Ma 、
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
