@@ -173,6 +173,9 @@
         <activity android:name="com.ustc.gjqapp.activity.WeatherChooseActivity">
 
         </activity>
+
+       <!-- 改变路径查询的起终点-->
+        <activity android:name=".activity.ChangeRouteActivity"/>
     </application>
 
 </manifest>

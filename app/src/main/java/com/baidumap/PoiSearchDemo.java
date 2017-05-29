@@ -65,6 +65,7 @@ public class PoiSearchDemo extends FragmentActivity implements
     private ArrayAdapter<String> sugAdapter = null;
     private int loadIndex = 0;
 
+    //初始化苏州中科大定位
     LatLng center = new LatLng(39.92235, 116.380338);
     int radius = 100;
     LatLng southwest = new LatLng( 39.92235, 116.380338 );

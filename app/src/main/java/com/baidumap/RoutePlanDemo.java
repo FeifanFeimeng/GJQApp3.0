@@ -6,6 +6,7 @@ package com.baidumap;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.TextureMapView;
@@ -56,6 +59,7 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 import java.util.List;
 
 import com.ustc.gjqapp.R;
+import com.ustc.gjqapp.activity.ChangeRouteActivity;
 
 /**
  * 此demo用来展示如何进行驾车、步行、公交、骑行、跨城综合路线搜索并在地图使用RouteOverlay、TransitOverlay绘制
@@ -89,8 +93,8 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 
     int nowSearchType = -1 ; // 当前进行的检索，供判断浏览节点时结果使用。
 
-    String startNodeStr = "文汇人才公寓";
-    String endNodeStr = "中科大";
+    String startNodeStr = "文荟人才公寓";
+    String endNodeStr = "中国科学技术大学苏州研究院";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +113,23 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         // 初始化搜索模块，注册事件监听
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
+        init();
+    }
+
+    private void init(){
+        //经纬度(纬度，经度) 我们这里设置苏州市的位置
+        //初始化苏州中科大定位
+        LatLng center = new LatLng(31.2815640163,120.7332372794);
+        LatLng latlng = new LatLng(31.32,120.62);
+        MapStatusUpdate mapStatusUpdate_circle = MapStatusUpdateFactory.newLatLng(center);
+        mBaidumap.setMapStatus(mapStatusUpdate_circle);
+        mBaidumap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        // MapStatusUpdateFactory.zoomTo(20) 就是设置缩放等级的，
+        // 有时候定位成功了，在当前的位置要显示自己的的位置，如果你的缩放等级不够的话
+        // 显示的范围会很大，用户体验不够好。
+        // 最后面是设置500（单位：cm）的时候的页面，基本上满足需求了。
+        //mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(50));
+        mBaidumap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));//设置缩放级别
     }
 
     /**
@@ -274,6 +295,9 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
      * 注意： 起终点图标使用中心对齐.
      */
     public void changeRouteIcon(View v) {
+        Log.i("malei","changeRouteIcon执行了");
+        Intent intent = new Intent(this, ChangeRouteActivity.class);
+        startActivityForResult(intent,1);
         if (routeOverlay == null) {
             return;
         }
@@ -294,6 +318,20 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         routeOverlay.removeFromMap();
         routeOverlay.addToMap();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:
+                startNodeStr = data.getStringExtra("startNodeStr");
+                endNodeStr = data.getStringExtra("endNodeStr");
+                Log.i("malei","startNodeStr="+startNodeStr+"   endNodeStr="+endNodeStr);
+                break;
+            default:
+                break;
+        }
+    }
+
 
 
     @Override

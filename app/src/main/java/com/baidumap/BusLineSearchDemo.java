@@ -2,6 +2,7 @@ package com.baidumap;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,12 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.GroundOverlayOptions;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.overlayutil.BusLineOverlay;
 import com.baidu.mapapi.search.busline.BusLineResult;
 import com.baidu.mapapi.search.busline.BusLineSearch;
@@ -39,9 +46,10 @@ import com.ustc.gjqapp.R;
  */
 public class BusLineSearchDemo extends FragmentActivity implements
         OnGetPoiSearchResultListener, OnGetBusLineSearchResultListener,
-        BaiduMap.OnMapClickListener {
+        BaiduMap.OnMapClickListener, View.OnClickListener {
     private Button mBtnPre = null; // 上一个节点
     private Button mBtnNext = null; // 下一个节点
+    private Button mBtnNextLine = null; // 下一条
     private int nodeIndex = -2; // 节点索引,供浏览节点时使用
     private BusLineResult route = null; // 保存驾车/步行路线数据的变量，供浏览节点时使用
     private List<String> busLineIDList = null;
@@ -59,6 +67,8 @@ public class BusLineSearchDemo extends FragmentActivity implements
         setTitle(titleLable);
         mBtnPre = (Button) findViewById(R.id.pre);
         mBtnNext = (Button) findViewById(R.id.next);
+        mBtnNextLine = (Button)findViewById(R.id.nextline);
+        mBtnNextLine.setOnClickListener(this);
         mBtnPre.setVisibility(View.INVISIBLE);
         mBtnNext.setVisibility(View.INVISIBLE);
         mBaiduMap = ((SupportMapFragment) getSupportFragmentManager()
@@ -79,10 +89,22 @@ public class BusLineSearchDemo extends FragmentActivity implements
     }
     private void init(){
         //经纬度(纬度，经度) 我们这里设置苏州市的位置
+        //初始化苏州中科大定位
+        LatLng center = new LatLng(31.2815640163,120.7332372794);
         LatLng latlng = new LatLng(31.32,120.62);
-        MapStatusUpdate mapStatusUpdate_circle = MapStatusUpdateFactory.newLatLng(latlng);
+        MapStatusUpdate mapStatusUpdate_circle = MapStatusUpdateFactory.newLatLng(center);
         mBaiduMap.setMapStatus(mapStatusUpdate_circle);
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        // MapStatusUpdateFactory.zoomTo(20) 就是设置缩放等级的，
+        // 有时候定位成功了，在当前的位置要显示自己的的位置，如果你的缩放等级不够的话
+        // 显示的范围会很大，用户体验不够好。
+        // 最后面是设置500（单位：cm）的时候的页面，基本上满足需求了。
+        //mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(50));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));//设置缩放级别
     }
+
+
+
 
     /**
      * 发起检索
@@ -103,6 +125,7 @@ public class BusLineSearchDemo extends FragmentActivity implements
     }
 
     public void searchNextBusline(View v) {
+        Log.i("malei","searchNextBusline执行");
         if (busLineIndex >= busLineIDList.size()) {
             busLineIndex = 0;
         }
@@ -228,4 +251,16 @@ public class BusLineSearchDemo extends FragmentActivity implements
     public boolean onMapPoiClick(MapPoi poi) {
         return false;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.nextline:
+                searchNextBusline(v);
+                break;
+            default:
+                break;
+        }
+    }
+
 }

@@ -176,11 +176,13 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
     public boolean onOptionsItemSelected(MenuItem item) {
         int item_id = item.getItemId();
         switch(item_id){
+            //周边查询
             case R.id.action_around:
                 Intent intent1 = new Intent(IndexActivity.this,
                         PoiSearchFragmentActivity.class);
                 startActivity(intent1);
                 break;
+            //公交查询
             case R.id.action_bus:
                 Intent intent2 = new Intent(IndexActivity.this,
                         BusLineSearchDemo.class);
@@ -191,11 +193,13 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
                         CourseTableActivity.class);
                 startActivity(intent3);
                 break;*/
+           //交通查询
             case R.id.action_traffic:
                 Intent intent4 = new Intent(IndexActivity.this,
                         RoutePlanDemo.class);
                 startActivity(intent4);
                 break;
+            //天气查询
             case R.id.action_weather:
                 Intent intent5 = new Intent(IndexActivity.this,WeatherActivity.class);
                 startActivity(intent5);
