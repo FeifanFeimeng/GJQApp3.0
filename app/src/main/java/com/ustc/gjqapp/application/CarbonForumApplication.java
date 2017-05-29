@@ -17,7 +17,8 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 /**
- * Created by 灿斌 on 10/12/2015.
+ * Created by MaLei on 2017/3/19 0019.
+ * Email:ml1995@mail.ustc.edu.cn
  */
 public class CarbonForumApplication extends Application {
 
@@ -36,6 +37,7 @@ public class CarbonForumApplication extends Application {
         userInfo = getApplicationContext().getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
         //获取缓存
         cacheSharedPreferences = getSharedPreferences("MainCache", Activity.MODE_PRIVATE);
+
         /*
         //initialize and create the image loader logic
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {

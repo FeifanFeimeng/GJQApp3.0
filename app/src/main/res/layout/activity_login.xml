@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.lincanbin.carbonforum.com.ustc.carbonforum.LoginActivity">
+    tools:context="com.ustc.gjqapp.activity.LoginActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

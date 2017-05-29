@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -263,7 +264,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     //Log.v("JSON", result.toString());
                     if (result.getInt("Status") == 1) {
-                        //Log.v("JSON", result.toString());
+                        Log.v("JSON", result.toString());
 
                         SharedPreferences.Editor editor = CarbonForumApplication.userInfo.edit();
                         editor.putString("UserID", result.getString("UserID"));
@@ -278,12 +279,13 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("UserIntro", userInfo.getString("UserIntro"));
                         }
                         editor.apply();
-                        //发送广播刷新
+                        //登陆成功、发送广播刷新
                         Intent intent = new Intent();
                         intent.setAction("action.refreshDrawer");
                         LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(intent);
                         finish();
                     } else {
+                        Log.v("JSON", result.toString());
                         Toast.makeText(LoginActivity.this, result.getString("ErrorMessage"), Toast.LENGTH_SHORT).show();
                         refreshVerificationCode();
                         switch(result.getInt("ErrorCode")){

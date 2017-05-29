@@ -88,6 +88,7 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
         mRecyclerView = (RecyclerView) findViewById(R.id.post_list);
         mRecyclerView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //设置滑动监听
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -95,6 +96,7 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
                     int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = layoutManager.getItemCount();
                     if (lastVisibleItem >= (totalItemCount - 5) && enableScrollListener && currentPage < totalPage) {
+                        //加载更多
                         loadPost(currentPage + 1);
                     }
                 }
@@ -144,7 +146,7 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRefreshTopicBroadcastReceiver);
     }
-    //下拉刷新事件
+    //下拉刷新事件SwipeRefreshLayout的回调
     @Override
     public void onRefresh() {
         //if(!mSwipeRefreshLayout.isRefreshing()){
@@ -171,6 +173,7 @@ public class TopicActivity extends AppCompatActivity implements SwipeRefreshLayo
         }
         @Override
         protected void onPreExecute() {
+            //加载的时候不允许滑动
             super.onPreExecute();
             enableScrollListener = false;
             mSwipeRefreshLayout.post(new Runnable(){

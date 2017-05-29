@@ -27,6 +27,7 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.overlayutil.PoiOverlay;
@@ -72,7 +73,7 @@ public class PoiSearchFragmentActivity extends FragmentActivity implements
 	    double myLatitude= 31.32;
 	    double myLongitude= 120.62;
 
-	    MapView mMapView;
+		TextureMapView mMapView;
 //	    BaiduMap mBaiduMap;
 
 	    // UI相关
@@ -120,7 +121,7 @@ public class PoiSearchFragmentActivity extends FragmentActivity implements
 	        };
 	        requestLocButton.setOnClickListener(btnClickListener);
 	     // 初始化地图
-	        mMapView = (MapView) findViewById(R.id.map);
+	        mMapView = (TextureMapView) findViewById(R.id.map);
 	        mBaiduMap = mMapView.getMap();
 			init();
 		     // 开启定位图层

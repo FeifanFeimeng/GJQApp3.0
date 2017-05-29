@@ -27,6 +27,7 @@ import java.util.Map;
 
 /**
  * Created by 灿斌 on 10/13/2015.
+ * 帖子详情的adapter
  */
 public class PostAdapter extends RecyclerView.Adapter{
     private Context context;

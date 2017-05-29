@@ -72,6 +72,10 @@ public class BusLineSearchDemo extends FragmentActivity implements
         busLineIDList = new ArrayList<String>();
         overlay = new BusLineOverlay(mBaiduMap);
         mBaiduMap.setOnMarkerClickListener(overlay);
+       /* this.setEGLConfigChooser(8,8,8,
+                8,
+                16,
+                0);*/
     }
     private void init(){
         //经纬度(纬度，经度) 我们这里设置苏州市的位置

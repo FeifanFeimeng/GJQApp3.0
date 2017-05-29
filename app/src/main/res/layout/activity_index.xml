@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
-        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="com.lincanbin.carbonforum.com.ustc.carbonforum.IndexActivity">
+        <!--该控件用以下拉刷新-->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/activity_index_swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -21,16 +23,20 @@
             <!--该控件用于在有限的窗口中展示大量数据集-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/topic_list"
-                android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="?android:attr/selectableItemBackground" />
+                android:foreground="?android:attr/selectableItemBackground"
+                android:scrollbars="vertical"/>
         </android.support.v4.widget.SwipeRefreshLayout>
-        <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add_24dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
             app:backgroundTint="@color/colorPrimary"
-            app:rippleColor="@color/colorPrimaryDark" />
+            app:rippleColor="@color/colorPrimaryDark"/>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

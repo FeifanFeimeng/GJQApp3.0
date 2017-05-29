@@ -17,7 +17,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Created by 灿斌 on 5/18/2015.
+ * Created by MaLei on 2017/3/19 0019.
+ * Email:ml1995@mail.ustc.edu.cn
  */
 public class VerificationCode {
     Context context;

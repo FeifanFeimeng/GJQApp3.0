@@ -23,6 +23,7 @@ import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.overlayutil.BikingRouteOverlay;
 import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
@@ -75,7 +76,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 
     // 地图相关，使用继承MapView的MyRouteMapView目的是重写touch事件实现泡泡处理
     // 如果不处理touch事件，则无需继承，直接使用MapView即可
-    MapView mMapView = null;    // 地图View
+    TextureMapView mMapView = null;    // 地图View
     BaiduMap mBaidumap = null;
     // 搜索相关
     RoutePlanSearch mSearch = null;    // 搜索模块，也可去掉地图模块独立使用
@@ -97,7 +98,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         CharSequence titleLable = "路线规划功能";
         setTitle(titleLable);
         // 初始化地图
-        mMapView = (MapView) findViewById(R.id.map_routeplan);
+        mMapView = (TextureMapView) findViewById(R.id.map_routeplan);
         mBaidumap = mMapView.getMap();
         mBtnPre = (Button) findViewById(R.id.pre);
         mBtnNext = (Button) findViewById(R.id.next);

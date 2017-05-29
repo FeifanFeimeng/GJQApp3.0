@@ -2,6 +2,7 @@ package com.ustc.gjqapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import java.util.Map;
 public class TopicAdapter extends RecyclerView.Adapter{
     private Context context;
     private LayoutInflater layoutInflater;
+
+    //回调接口
     public interface OnRecyclerViewListener {
         void onItemClick(int position);
         boolean onItemLongClick(int position);
@@ -46,7 +49,7 @@ public class TopicAdapter extends RecyclerView.Adapter{
     public void setData(List<Map<String,Object>> list) {
         this.list = list;
     }
-
+    //创建新View，被LayoutManager所调用
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
@@ -55,7 +58,7 @@ public class TopicAdapter extends RecyclerView.Adapter{
         view.setLayoutParams(lp);
         return new topicViewHolder(view);
     }
-
+    //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         final topicViewHolder holder = (topicViewHolder) viewHolder;
@@ -66,12 +69,12 @@ public class TopicAdapter extends RecyclerView.Adapter{
         holder.Time.setText(TimeUtil.formatTime(context, Long.parseLong(topic.get("LastTime").toString())));
         Glide.with(context).load(APIAddress.MIDDLE_AVATAR_URL(topic.get("UserID").toString(), "middle")).into(holder.Avatar);
     }
-
+    //获取数据的数量
     @Override
     public int getItemCount() {
         return list.size();
     }
-
+    //自定义的ViewHolder，持有每个Item的的所有界面元素
     class topicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
     {
         public View rootView;
@@ -108,6 +111,7 @@ public class TopicAdapter extends RecyclerView.Adapter{
                 //onRecyclerViewListener.onItemClick(position);
             //}
         }
+
 
         @Override
         //长按事件

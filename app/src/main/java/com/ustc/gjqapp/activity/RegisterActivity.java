@@ -22,6 +22,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,7 +85,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.title_activity_register);
+            //取代原本的actionbar
             setSupportActionBar(mToolbar);
+            //设置是否有返回箭头
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -95,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mVerificationCodeView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE) {
+                if (id == EditorInfo.IME_ACTION_DONE) {//typically meaning there is nothing more to input and the IME will be closed.
                     attemptRegister();
                     return true;
                 }
@@ -135,6 +138,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
     }
+    //调用mayRequestContacts()，成功后调用接口（LoaderCallbacks）下面的方法
+    //mayRequestContacts() ——动态获取PERMISSION_GRANTED(通讯录权限)
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -143,18 +148,24 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     private boolean mayRequestContacts() {
+        //当系统版本低于android_M时，跳过权限检查
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
+        //当系统版本大于等于android_M时，执行权限申请代码
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            //当自身已经被允许的权限中包含了READ_CONTACTS时，返回True
             return true;
         }
+        //当自身已经被允许权限中没有READ_CONTACTS时，申请通讯录读取权限READ_CONTACTS
+        //shouldShowRequestPermissionRationale ==> 是否需要调用系统的权限申请界面
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
+                            //展示请求权限界面，第一个参数是权限数组，第二个是请求码
                             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
                         }
                     });
@@ -165,14 +176,15 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     /**
-     * Callback received when a permissions request has been completed.
+     * Callback received when a permissions request has been completed.申请权限返回的响应
+     * //请求码 对应上面请求的请求码
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
+                populateAutoComplete(); //读取联系人列表内的email
             }
         }
     }
@@ -349,6 +361,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     /**
      * Represents an asynchronous register/registration task used to authenticate
      * the user.
+     * 异步任务需要重写doInBackground（）和onPostExecute（）
+     * 四条准则：
+     * Task的实例必须在UI thread中创建；
+     * execute方法必须在UI thread中调用；
+     * 不要手动的调用onPreExecute(), onPostExecute(Result)，doInBackground(Params...), onProgressUpdate(Progress...)这几个方法；
+     * 该task只能被执行一次，否则多次调用时将会出现异常；
      */
     public class UserRegisterTask extends AsyncTask<Void, Void, JSONObject> {
 
@@ -361,11 +379,19 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             parameter.put("VerifyCode", verification_code);
         }
 
+        /***
+         *  后台执行，比较耗时的操作都可以放在这里。注意这里不能直接操作UI。此方法在后台线程执行，
+         *  完成任务的主要工作，通常需要较长的时间。在执行过程中可以调用publicProgress(Progress…)来更新任务的进度。
+         */
+
         @Override
         protected JSONObject doInBackground(Void... params) {
             return HttpUtil.postRequest(RegisterActivity.this, APIAddress.REGISTER_URL, parameter, true, false);
         }
 
+        /**
+         * 相当于Handler 处理UI的方式，在这里面可以使用在doInBackground 得到的结果处理操作UI。
+         * 此方法在主线程执行，任务执行的结果作为此方法的参数返回*/
         @Override
         protected void onPostExecute(JSONObject result) {
             mAuthTask = null;
@@ -374,7 +400,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 try {
                     //Log.v("JSON", result.toString());
                     if (result.getInt("Status") == 1) {
-                        //Log.v("JSON", result.toString());
+                       Log.v("JSON", result.toString());
 
                         SharedPreferences.Editor editor = CarbonForumApplication.userInfo.edit();
                         editor.putString("UserID", result.getString("UserID"));
@@ -425,11 +451,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         }
 
+        //用户调用取消时，要做的操作
         @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 

@@ -6,7 +6,9 @@ import android.view.MotionEvent;
 import android.webkit.WebView;
 
 /**
- * Created by 灿斌 on 2015/11/7.
+ * Created by MaLei on 2017/3/19 0019.
+ * Email:ml1995@mail.ustc.edu.cn
+ * custom view
  */
 public class CarbonWebView extends WebView {
     public CarbonWebView(Context context) {

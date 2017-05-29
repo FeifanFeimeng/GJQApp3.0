@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -121,6 +122,7 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
         // 创建一个线性布局管理器
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         //setOnScrollListener已废弃，使用addOnScrollListener需要在使用后用clearOnScrollListeners()移除监听器
+        //滑动监听，当滑倒底部时加载更多
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -413,6 +415,7 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
+        //重写返回键，如果侧边栏开启则关闭，否则关闭应用
         if (mDrawer != null && mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
         } else {
@@ -431,6 +434,7 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
         protected void onPreExecute() {
             super.onPreExecute();
             enableScrollListener = false;
+            //先从缓存拿数据
             if(enableCache){
                 topicList = JSONUtil.jsonObject2List(JSONUtil.jsonString2Object(
                         CarbonForumApplication.cacheSharedPreferences.getString("topicsCache", "{\"Status\":1, \"TopicsArray\":[]}"))
@@ -490,6 +494,7 @@ public class IndexActivity extends AppCompatActivity implements SwipeRefreshLayo
                     e.printStackTrace();
                 }
                 if(targetPage == 1){
+                    //如果是第一页数据则进行缓存
                     try {
                         SharedPreferences.Editor cacheEditor = CarbonForumApplication.cacheSharedPreferences.edit();
                         cacheEditor.putString("topicsCache", jsonObject.toString(0));
